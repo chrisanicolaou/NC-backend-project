@@ -17,6 +17,11 @@ describe("GET: /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((results) => {
+        expect(Array.isArray(results.body)).toEqual(true);
+        results.body.forEach((topic) => {
+          expect(topic).toHaveProperty("slug");
+          expect(topic).toHaveProperty("description");
+        });
         expect(results.body).toEqual(testData.topicData);
       });
   });
