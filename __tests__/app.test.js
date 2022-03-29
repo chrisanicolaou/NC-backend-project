@@ -79,3 +79,73 @@ describe("GET: /api/articles/:article_id", () => {
       });
   });
 });
+
+describe("PATCH: /api/articles/:article_id", () => {
+  const voteToAdd = { inc_votes: 1 };
+  test("200: Given req body in the correct format, returns article with the correctly updated votes property", () => {
+    return request(app)
+      .patch("/api/articles/1")
+      .send(voteToAdd)
+      .expect(200)
+      .then((results) => {
+        expect(results.body).toEqual(
+          expect.objectContaining({
+            article_id: 1,
+            title: expect.any(String),
+            topic: expect.any(String),
+            author: expect.any(String),
+            body: expect.any(String),
+            created_at: expect.any(String),
+            votes: 101,
+          })
+        );
+      });
+  });
+  test("400: Given a req body of correct format but incorrect value type, returns 'Bad request'", () => {
+    const badVote = { inc_votes: "seven-teen" };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(badVote)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("400: Given a req body of incorrect format returns 'Bad request'", () => {
+    const badVote = { mcfly: "Best band" };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(badVote)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("404: Given non-existent article_id, returns 'Article not found'", () => {
+    return request(app)
+      .patch("/api/articles/300")
+      .send(voteToAdd)
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Article not found");
+      });
+  });
+  test("400: Given article_id of wrong type, returns 'Bad request'", () => {
+    return request(app)
+      .patch("/api/articles/scoop")
+      .send(voteToAdd)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("404: Returns with 'Path not found' when given the incorrect path", () => {
+    return request(app)
+      .patch("/api/notarticles/400")
+      .send(voteToAdd)
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Path not found");
+      });
+  });
+});
