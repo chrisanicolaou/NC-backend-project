@@ -1,11 +1,6 @@
 const db = require("../db/connection");
 
-exports.getTopicsData = async () => {
-  const queryResult = await db.query(`SELECT * FROM topics;`);
-  return queryResult.rows;
-};
-
-exports.getArticle = async (articleId) => {
+exports.fetchArticleById = async (articleId) => {
   try {
     const queryResult = await db.query(
       `SELECT * FROM articles WHERE article_id = $1`,
