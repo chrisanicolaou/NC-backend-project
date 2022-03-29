@@ -1,7 +1,6 @@
 const { getTopicsData } = require("../models/app-models");
 
-exports.getTopics = (req, res, next) => {
-  getTopicsData().then((topicsData) => {
-    res.status(200).send(topicsData);
-  });
+exports.getTopics = async (req, res, next) => {
+  const result = await getTopicsData();
+  res.send(result);
 };
