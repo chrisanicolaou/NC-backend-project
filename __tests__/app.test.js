@@ -72,7 +72,7 @@ describe("GET: /api/articles/:article_id", () => {
   });
   test("404: Returns with 'Path not found' when given the incorrect path", () => {
     return request(app)
-      .get("/api/sharticles/400")
+      .get("/api/notarticles/400")
       .expect(404)
       .then((results) => {
         expect(results.body.msg).toEqual("Path not found");
