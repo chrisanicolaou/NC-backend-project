@@ -1,4 +1,3 @@
-const res = require("express/lib/response");
 const { fetchUsers } = require("../models/users.model");
 
 exports.getUsers = async (req, res, next) => {
