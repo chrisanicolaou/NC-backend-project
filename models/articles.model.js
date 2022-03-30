@@ -7,7 +7,7 @@ exports.fetchArticleById = async (articleId) => {
       [articleId]
     );
     if (queryResult.rows.length === 0) {
-      return Promise.reject({ msg: "Article not found" });
+      return Promise.reject({ msg: "Article not found", status: 404 });
     }
     return queryResult.rows[0];
   } catch (err) {
@@ -22,7 +22,7 @@ exports.updateArticleById = async (articleId, numToIncrement) => {
       [numToIncrement, articleId]
     );
     if (queryResult.rows.length === 0) {
-      return Promise.reject({ msg: "Article not found" });
+      return Promise.reject({ msg: "Article not found", status: 404 });
     }
     return queryResult.rows[0];
   } catch (err) {
