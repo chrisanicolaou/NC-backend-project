@@ -4,12 +4,8 @@ const db = require("../db/connection");
 const testData = require("../db/data/test-data/index");
 const seed = require("../db/seeds/seed");
 
-afterAll(() => {
-  db.end();
-});
-beforeEach(() => {
-  return seed(testData);
-});
+afterAll(() => db.end());
+beforeEach(() => seed(testData));
 
 describe("GET: /api/topics", () => {
   test("200: Returns with an array of topic objects, each with slug and description properties", () => {
