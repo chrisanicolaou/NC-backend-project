@@ -32,7 +32,7 @@ describe("GET: /api/topics", () => {
 });
 
 describe("GET: /api/articles/:article_id", () => {
-  test("200: Given a correct file path and existing article_id, returns an article object with the correct properties", () => {
+  test("200: Given a correct file path and existing article_id, returns an article object with the correct properties, including a comment_count as a total number of comments for that article", () => {
     return request(app)
       .get("/api/articles/3")
       .expect(200)
@@ -46,6 +46,7 @@ describe("GET: /api/articles/:article_id", () => {
             body: expect.any(String),
             created_at: expect.any(String),
             votes: expect.any(Number),
+            comment_count: 2,
           })
         );
       });
