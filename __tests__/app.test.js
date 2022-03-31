@@ -176,6 +176,7 @@ describe("GET: /api/articles", () => {
       .expect(200)
       .then((results) => {
         expect(Array.isArray(results.body)).toEqual(true);
+        expect(results.body.length).toEqual(12);
         results.body.forEach((article) => {
           expect(article).toEqual(
             expect.objectContaining({
