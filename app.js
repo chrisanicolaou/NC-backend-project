@@ -7,6 +7,7 @@ const {
   patchArticleById,
 } = require("./controllers/articles.controller");
 const { getUsers } = require("./controllers/users.controller");
+const { getCommentsByArticleId } = require("./controllers/comments.controller");
 
 //body-parser
 
@@ -29,6 +30,8 @@ app.patch("/api/articles/:article_id", patchArticleById);
 app.get("/api/users", getUsers);
 
 //COMMENTS
+
+app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
 //ERROR HANDLERS:
 
