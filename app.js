@@ -7,7 +7,10 @@ const {
   patchArticleById,
 } = require("./controllers/articles.controller");
 const { getUsers } = require("./controllers/users.controller");
-const { getCommentsByArticleId } = require("./controllers/comments.controller");
+const {
+  getCommentsByArticleId,
+  postCommentByArticleId,
+} = require("./controllers/comments.controller");
 
 //body-parser
 
@@ -33,11 +36,13 @@ app.get("/api/users", getUsers);
 
 app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 
+app.post("/api/articles/:article_id/comments", postCommentByArticleId);
+
 //ERROR HANDLERS:
 
 //Handles PSQL errors
 app.use((err, req, res, next) => {
-  const badReqCodes = ["42703", "22P02", "23502"];
+  const badReqCodes = ["42703", "22P02", "23502", "23503"];
   if (badReqCodes.includes(err.code)) {
     res.status(400).send({ msg: "Bad request" });
   } else {

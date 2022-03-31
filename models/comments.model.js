@@ -13,3 +13,19 @@ exports.fetchCommentsByArticleId = async (articleId) => {
     return Promise.reject(err);
   }
 };
+
+exports.sendCommentByArticleId = async (articleId, commentToSend) => {
+  try {
+    const queryResult = await db.query(
+      `INSERT INTO comments
+    (body, article_id, author, votes)
+    VALUES
+    ($1, $2, $3, 0)
+    RETURNING *;`,
+      [commentToSend.body, articleId, commentToSend.username]
+    );
+    return queryResult.rows[0];
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
