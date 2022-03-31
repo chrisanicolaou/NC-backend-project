@@ -1,7 +1,6 @@
 const {
   fetchArticleById,
   updateArticleById,
-  fetchCommentCountByArticleId,
 } = require("../models/articles.model");
 
 exports.getArticleById = async (req, res, next) => {
