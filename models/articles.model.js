@@ -2,15 +2,21 @@ const db = require("../db/connection");
 
 exports.fetchArticleById = async (articleId) => {
   try {
+    console.log("try block");
     const queryResult = await db.query(
-      `SELECT * FROM articles WHERE article_id = $1`,
+      `SELECT articles.*, COUNT(comments.article_id) :: INT AS comment_count 
+      FROM articles JOIN comments ON articles.article_id = comments.article_id 
+      WHERE articles.article_id = $1 
+      GROUP BY articles.article_id;`,
       [articleId]
     );
+    console.log(queryResult.rows);
     if (queryResult.rows.length === 0) {
       return Promise.reject({ msg: "Article not found", status: 404 });
     }
     return queryResult.rows[0];
   } catch (err) {
+    console.log(err);
     return Promise.reject(err);
   }
 };
@@ -30,14 +36,14 @@ exports.updateArticleById = async (articleId, numToIncrement) => {
   }
 };
 
-exports.fetchCommentCountByArticleId = async (articleId) => {
-  try {
-    const queryResult = await db.query(
-      `SELECT COUNT(article_id) FROM comments WHERE article_id = $1`,
-      [articleId]
-    );
-    return Number(queryResult.rows[0].count);
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
+// exports.fetchCommentCountByArticleId = async (articleId) => {
+//   try {
+//     const queryResult = await db.query(
+//       `SELECT COUNT(article_id) FROM comments WHERE article_id = $1`,
+//       [articleId]
+//     );
+//     return Number(queryResult.rows[0].count);
+//   } catch (err) {
+//     return Promise.reject(err);
+//   }
+// };
