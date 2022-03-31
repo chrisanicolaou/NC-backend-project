@@ -31,8 +31,8 @@ describe("GET: /api/topics", () => {
   });
 });
 
-describe("GET: /api/articles/:article_id (REFACTORED: comment_count)", () => {
-  test("200: Given a correct file path and existing article_id, returns an article object with the correct properties inc. comment_count", () => {
+describe("GET: /api/articles/:article_id", () => {
+  test("200: Given a correct file path and existing article_id, returns an article object with the correct properties, including a comment_count as a total number of comments for that article", () => {
     return request(app)
       .get("/api/articles/3")
       .expect(200)
