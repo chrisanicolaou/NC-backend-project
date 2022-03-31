@@ -224,7 +224,7 @@ describe("GET: /api/articles/:article_id/comments", () => {
         });
       });
   });
-  test("404: Given non-existent article_id, returns 'No comments found'", () => {
+  test("404: Given non-existent article_id, returns 'Article not found'", () => {
     return request(app)
       .get("/api/articles/300/comments")
       .expect(404)
@@ -232,7 +232,7 @@ describe("GET: /api/articles/:article_id/comments", () => {
         expect(results.body.msg).toEqual("Article not found");
       });
   });
-  test("404: Given article_id with no comments, returns 'No comments found'", () => {
+  test("200: Given article_id with no comments, returns 'No comments found'", () => {
     return request(app)
       .get("/api/articles/2/comments")
       .expect(200)
