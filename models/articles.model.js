@@ -1,5 +1,18 @@
 const db = require("../db/connection");
 
+exports.fetchArticles = async () => {
+  try {
+    const queryResult = await db.query(
+      `SELECT articles.*, COUNT(comments.article_id) :: INT AS comment_count
+      FROM articles LEFT JOIN comments ON articles.article_id = comments.article_id
+      GROUP BY articles.article_id;`
+    );
+    return queryResult.rows;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
 exports.fetchArticleById = async (articleId) => {
   try {
     const queryResult = await db.query(

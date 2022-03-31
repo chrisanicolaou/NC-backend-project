@@ -1,7 +1,17 @@
 const {
+  fetchArticles,
   fetchArticleById,
   updateArticleById,
 } = require("../models/articles.model");
+
+exports.getArticles = async (req, res, next) => {
+  try {
+    const result = await fetchArticles();
+    res.send(result);
+  } catch (err) {
+    next(err);
+  }
+};
 
 exports.getArticleById = async (req, res, next) => {
   try {
