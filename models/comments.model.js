@@ -7,7 +7,7 @@ exports.fetchCommentsByArticleId = async (articleId) => {
       [articleId]
     );
     if (queryResult.rows.length === 0)
-      return Promise.reject({ status: 404, msg: "No comments found" });
+      return Promise.reject({ status: 200, msg: "No comments found" });
     return queryResult.rows;
   } catch (err) {
     return Promise.reject(err);
