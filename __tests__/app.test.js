@@ -202,3 +202,58 @@ describe("GET: /api/articles", () => {
       });
   });
 });
+
+describe("GET: /api/articles/:article_id/comments", () => {
+  test("200: Given a correct file path and existing article_id, returns an array of comments of that article_id, each with the correct properties", () => {
+    return request(app)
+      .get("/api/articles/3/comments")
+      .expect(200)
+      .then((results) => {
+        expect(results.body.length).toEqual(2);
+        results.body.forEach((comment) => {
+          expect(comment).toEqual(
+            expect.objectContaining({
+              comment_id: expect.any(Number),
+              votes: expect.any(Number),
+              created_at: expect.any(String),
+              author: expect.any(String),
+              body: expect.any(String),
+            })
+          );
+          expect(Object.keys(comment).length).toEqual(5);
+        });
+      });
+  });
+  test("404: Given non-existent article_id, returns 'Article not found'", () => {
+    return request(app)
+      .get("/api/articles/300/comments")
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Article not found");
+      });
+  });
+  test("200: Given article_id with no comments, returns 'No comments found'", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(200)
+      .then((results) => {
+        expect(results.body.msg).toEqual("No comments found");
+      });
+  });
+  test("400: Given article_id of wrong type, returns 'Bad request'", () => {
+    return request(app)
+      .get("/api/articles/scoop/comments")
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("404: Returns with 'Path not found' when given the incorrect path", () => {
+    return request(app)
+      .get("/api/notarticles/4/comments")
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Path not found");
+      });
+  });
+});
