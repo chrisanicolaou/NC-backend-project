@@ -168,3 +168,36 @@ describe("GET: /api/users", () => {
       });
   });
 });
+
+describe("GET: /api/articles", () => {
+  test("200: Returns with an array of article objects, including author as username from users table and comment_count", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((results) => {
+        expect(Array.isArray(results.body)).toEqual(true);
+        results.body.forEach((article) => {
+          expect(article).toEqual(
+            expect.objectContaining({
+              article_id: expect.any(Number),
+              author: expect.any(String),
+              title: expect.any(String),
+              article_id: expect.any(Number),
+              topic: expect.any(String),
+              created_at: expect.any(String),
+              votes: expect.any(Number),
+              comment_count: expect.any(Number),
+            })
+          );
+        });
+      });
+  });
+  test("404: Returns with 'Path not found' when given the incorrect path", () => {
+    return request(app)
+      .get("/api/starticles")
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Path not found");
+      });
+  });
+});
