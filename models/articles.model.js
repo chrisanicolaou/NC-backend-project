@@ -29,3 +29,15 @@ exports.updateArticleById = async (articleId, numToIncrement) => {
     return Promise.reject(err);
   }
 };
+
+exports.fetchCommentCountByArticleId = async (articleId) => {
+  try {
+    const queryResult = await db.query(
+      `SELECT COUNT(article_id) FROM comments WHERE article_id = $1`,
+      [articleId]
+    );
+    return Number(queryResult.rows[0].count);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
