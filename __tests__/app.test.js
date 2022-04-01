@@ -257,3 +257,88 @@ describe("GET: /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("POST: /api/articles/:article_id/comments", () => {
+  const commentToAdd = {
+    body: "This is a good comment",
+    username: "butter_bridge",
+  };
+  test("200: Given req body in the correct format, returns the posted comment", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(commentToAdd)
+      .expect(200)
+      .then((results) => {
+        expect(results.body).toEqual(
+          expect.objectContaining({
+            comment_id: expect.any(Number),
+            body: expect.any(String),
+            article_id: 1,
+            author: "butter_bridge",
+            votes: 0,
+            created_at: expect.any(String),
+          })
+        );
+      });
+  });
+  test("400: Given a req body of correct format but non-existent user, returns 'Bad request'", () => {
+    const badComment = {
+      body: "This is not a good comment",
+      username: "chrislovespie",
+    };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(badComment)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("400: Given a req body of correct format but incorrect value type, returns 'Bad request'", () => {
+    const badComment = { body: 14, username: "butter_bridge" };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(badComment)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("400: Given a req body of incorrect format returns 'Bad request'", () => {
+    const badComment = { mcfly: "Best band" };
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send(badComment)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("404: Given non-existent article_id, returns 'Article not found'", () => {
+    return request(app)
+      .post("/api/articles/300/comments")
+      .send(commentToAdd)
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Article not found");
+      });
+  });
+  test("400: Given article_id of wrong type, returns 'Bad request'", () => {
+    return request(app)
+      .post("/api/articles/scoop/comments")
+      .send(commentToAdd)
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("404: Returns with 'Path not found' when given the incorrect path", () => {
+    return request(app)
+      .post("/api/notarticles/400/copmments")
+      .send(commentToAdd)
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Path not found");
+      });
+  });
+});
