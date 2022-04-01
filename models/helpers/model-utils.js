@@ -16,3 +16,13 @@ exports.commentPostChecker = async (commentToPost) => {
     return Promise.reject({ code: "42703" });
   }
 };
+
+exports.commentIdChecker = async (commentId) => {
+  const checker = await db.query(
+    `SELECT * FROM comments WHERE comment_id = $1`,
+    [commentId]
+  );
+  if (checker.rows.length == 0) {
+    return Promise.reject({ status: 404, msg: "Comment not found" });
+  }
+};

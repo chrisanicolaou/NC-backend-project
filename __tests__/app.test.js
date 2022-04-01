@@ -342,3 +342,38 @@ describe("POST: /api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe("DELETE: /api/comments/:comment_id", () => {
+  test("204: Given a valid request, deletes the given comment and responds with 'no content'", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then((results) => {
+        expect(results.body).toEqual({});
+      });
+  });
+  test("404: Given non-existent comment_id, returns 'Comment not found'", () => {
+    return request(app)
+      .delete("/api/comments/300")
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Comment not found");
+      });
+  });
+  test("400: Given comment_id of wrong type, returns 'Bad request'", () => {
+    return request(app)
+      .delete("/api/comments/scoop")
+      .expect(400)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Bad request");
+      });
+  });
+  test("404: Returns with 'Path not found' when given the incorrect path", () => {
+    return request(app)
+      .delete("/api/complemments")
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Path not found");
+      });
+  });
+});
