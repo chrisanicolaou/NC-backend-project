@@ -350,10 +350,6 @@ describe("DELETE: /api/comments/:comment_id", () => {
       .expect(204)
       .then((results) => {
         expect(results.body).toEqual({});
-        return db.query(`SELECT * FROM comments WHERE comment_id = 1`);
-      })
-      .then((queryResults) => {
-        expect(queryResults.rows).toEqual([]);
       });
   });
   test("404: Given non-existent comment_id, returns 'Comment not found'", () => {
