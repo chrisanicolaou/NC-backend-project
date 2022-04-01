@@ -29,3 +29,11 @@ exports.sendCommentByArticleId = async (articleId, commentToSend) => {
     return Promise.reject(err);
   }
 };
+
+exports.removeCommentById = async (commentId) => {
+  try {
+    await db.query(`DELETE FROM comments WHERE comment_id = $1`, [commentId]);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
