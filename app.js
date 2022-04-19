@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+const cors = require("cors");
 const { getTopics } = require("./controllers/topics.controller");
 const {
   getArticles,
@@ -12,6 +13,10 @@ const {
   postCommentByArticleId,
   deleteCommentById,
 } = require("./controllers/comments.controller");
+
+//CORS
+
+app.use(cors());
 
 //body-parser
 
