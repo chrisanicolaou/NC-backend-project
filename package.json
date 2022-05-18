@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node listen.js",
+    "view-data": "psql -f viewtestdata.sql > testdata.txt",
     "setup-dbs": "psql -f ./db/setup.sql",
     "seed": "node ./db/seeds/run-seed.js",
     "test": "jest",
