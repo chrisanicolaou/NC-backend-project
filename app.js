@@ -13,6 +13,7 @@ const {
   postCommentByArticleId,
   deleteCommentById,
 } = require("./controllers/comments.controller");
+const { getEndpoints } = require("./controllers/api.controller");
 
 //CORS
 
@@ -45,6 +46,10 @@ app.get("/api/articles/:article_id/comments", getCommentsByArticleId);
 app.post("/api/articles/:article_id/comments", postCommentByArticleId);
 
 app.delete("/api/comments/:comment_id", deleteCommentById);
+
+//API
+
+app.get("/api", getEndpoints);
 
 //ERROR HANDLERS:
 

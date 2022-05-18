@@ -3,9 +3,29 @@ const request = require("supertest");
 const db = require("../db/connection");
 const testData = require("../db/data/test-data/index");
 const seed = require("../db/seeds/seed");
+const endpoints = require("../endpoints.json");
 
 afterAll(() => db.end());
 beforeEach(() => seed(testData));
+
+describe("GET: /api", () => {
+  test("200: Returns with a JSON representation of all the available endpoints of the api", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((results) => {
+        expect(results.body).toEqual(endpoints);
+      });
+  });
+  test("404: Returns with 'Path not found' when given the incorrect path", () => {
+    return request(app)
+      .get("/papi")
+      .expect(404)
+      .then((results) => {
+        expect(results.body.msg).toEqual("Path not found");
+      });
+  });
+});
 
 describe("GET: /api/topics", () => {
   test("200: Returns with an array of topic objects, each with slug and description properties", () => {
