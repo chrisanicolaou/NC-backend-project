@@ -49,15 +49,3 @@ Additionally, if you wanted to view the test database, you can run:
 `npm run view-data`
 
 Which will print the test data to a "testdata.txt" file.
-
----
-
----
-
-## Limitations
-
-Building this project from start to finish within 4 days proved to be challenging. Given more time, I would have liked to explore the following concepts in this project:
-
-[**Express Routers**](https://expressjs.com/en/guide/routing): While still a relatively small project, having an opportunity to use express routers to create modular route handlers would have helped me to understand how to create more maintainable (and readable) servers.
-
-**Pagination**: Learning how to paginate data on the backend using queries is invaluable and I would have loved the opportunity to implement this.
