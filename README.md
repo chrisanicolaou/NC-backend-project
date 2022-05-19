@@ -20,7 +20,7 @@
 
 As a part of my studies at Northcoders, I was tasked with building an API for the purpose of accessing application data programmatically. The intention is to mimic the building of a real world backend service, gaining practical insight into the required workflows that will be common in the workplace.
 
-**This API is hosted on [Heroku](https://www.heroku.com), and can be viewed online using [this URL](https://nc-backend-project.herokuapp.com/). Alternatively, if you would like to run the test suite locally, please follow the [setup](#setup) instructions.**
+**This API is hosted on [Heroku](https://www.heroku.com), and can be viewed online using [this URL](https://nc-backend-project.herokuapp.com/api). Alternatively, if you would like to run the test suite locally, please follow the [setup](#setup) instructions.**
 
 ---
 
